@@ -1,0 +1,9 @@
+RevxNeueDemo-SemiBold
+Roboto-Black
+Roboto-BlackItalic
+Roboto-Bold
+Roboto-BoldItalic
+Roboto-Italic
+Roboto-Medium
+SFProDisplay-Semibold
+Roboto-Regular

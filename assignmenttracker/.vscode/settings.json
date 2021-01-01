@@ -1,0 +1,31 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "eslint.enable": true,
+    "editor.formatOnPaste": false,
+    "eslint.alwaysShowStatus": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.fixAll.eslint": false
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "package-lock.json": true,
+        "metro.config.js": true,
+        "babel.config.js": true,
+        ".watchmanconfig": true,
+        "node_modules": true,
+        ".flowconfig": true,
+        "react-native.config.js": true,
+        "android": true,
+        "ios": true,
+        "__tests__": true,
+        ".gitignore": true,
+        "app.json": true
+    },
+    "explorerExclude.backup": null
+}

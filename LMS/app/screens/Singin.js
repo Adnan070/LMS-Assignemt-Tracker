@@ -10,17 +10,14 @@ import {
   Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
+import {LinearGradient} from 'expo-linear-gradient';
+import {FontAwesome, Feather} from '@expo/vector-icons';
 
 import {useTheme} from 'react-native-paper';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {loginUser} from '../redux/action/userAction';
-
-import PropTypes from 'prop-types';
 
 const SignInScreen = ({loginUser, navigation}) => {
   const [data, setData] = React.useState({

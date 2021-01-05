@@ -18,19 +18,13 @@ export default function (state = initialState, action) {
         ...state,
         authenticated: true,
       };
-      break;
     case SET_UNAUTHENTICATED:
-      return {
-        ...state,
-        authenticated: false,
-      };
-      break;
+      return initialState;
     case LOADING_USERS:
       return {
         ...state,
         loading: true,
       };
-      break;
     case SET_USER:
       return {
         ...state,

@@ -1,5 +1,6 @@
 import {
   SET_AUTHENTICATED,
+  SET_UNAUTHENTICATED,
   LOADING_USERS,
   SET_USER,
   SET_ERRORS,
@@ -18,7 +19,7 @@ export const loginUser = (credentials) => async (dispatch) => {
     });
   } else {
     axios
-      .post('/users/login', credentials, {withCredentials: true})
+      .post('/users/login', credentials)
       .then((data) => {
         console.log(data);
 
@@ -57,4 +58,10 @@ export const auth = () => {
     type: AUTH_USER,
     payload: request,
   };
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({
+    type: SET_UNAUTHENTICATED,
+  });
 };

@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {View, ActivityIndicator} from 'react-native';
 
@@ -30,9 +30,8 @@ import {
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {loginUser} from './app/redux/action/userAction';
 
-import {DrawerContent} from './app/screens/DrawerContent';
+import DrawerContent from './app/screens/DrawerContent';
 
 import RootStackScreen from './app/screens/RootStack';
 
@@ -40,7 +39,7 @@ import RootStackScreen from './app/screens/RootStack';
  * All Screens
  */
 
-import HomeScreen from './app/screens/Home';
+import {RootHomeStack} from './app/screens';
 
 const Drawer = createDrawerNavigator();
 
@@ -48,32 +47,60 @@ const Drawer = createDrawerNavigator();
  * App Component
  */
 
-const App = (props) => {
-  const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+const CustomDefaultTheme = {
+  ...NavigationDefaultTheme,
+  ...PaperDefaultTheme,
+  colors: {
+    ...NavigationDefaultTheme.colors,
+    ...PaperDefaultTheme.colors,
+    background: '#ffffff',
+    text: '#333333',
+  },
+};
 
-  const CustomDefaultTheme = {
-    ...NavigationDefaultTheme,
-    ...PaperDefaultTheme,
-    colors: {
-      ...NavigationDefaultTheme.colors,
-      ...PaperDefaultTheme.colors,
-      background: '#ffffff',
-      text: '#333333',
-    },
-  };
+const CustomDarkTheme = {
+  ...NavigationDarkTheme,
+  ...PaperDarkTheme,
+  colors: {
+    ...NavigationDarkTheme.colors,
+    ...PaperDarkTheme.colors,
+    background: '#333333',
+    text: '#ffffff',
+  },
+};
 
-  const CustomDarkTheme = {
-    ...NavigationDarkTheme,
-    ...PaperDarkTheme,
-    colors: {
-      ...NavigationDarkTheme.colors,
-      ...PaperDarkTheme.colors,
-      background: '#333333',
-      text: '#ffffff',
-    },
-  };
+const Wrapper = (props) => {
+  const [isDarkTheme, setTheme] = useState(false);
+  const [auth, setAuth] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
+
+  useEffect(() => {
+    if (props.authenticated) {
+      setAuth(true);
+    }
+    if (!props.authenticated) {
+      setAuth(false);
+    }
+    if (props.loading) {
+      setLoading(true);
+    }
+    if (!props.loading) {
+      setLoading(false);
+    }
+    if (props.isDarkTheme !== isDarkTheme) {
+      setTheme(props.isDarkTheme);
+    }
+  }, [props]);
+
+  if (loading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <PaperProvider theme={theme}>
@@ -82,7 +109,11 @@ const App = (props) => {
           <Drawer.Navigator
             initialRouteName="Home"
             drawerContent={(props) => <DrawerContent {...props} />}>
-            <Drawer.Screen name="Home" component={HomeScreen} />
+            <Drawer.Screen
+              name="Home"
+              component={RootHomeStack}
+              initialParams={{theme}}
+            />
           </Drawer.Navigator>
         ) : (
           <RootStackScreen />
@@ -102,6 +133,7 @@ const mapStateToProps = (state) => {
   return {
     authenticated: user.authenticated,
     loading: user.loading,
+    isDarkTheme: UI.isDarkTheme,
   };
 };
 /**
@@ -113,4 +145,4 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({}, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(Wrapper);
